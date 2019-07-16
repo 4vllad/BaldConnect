@@ -1,0 +1,379 @@
+<html>
+<head>
+<style>
+
+    canvas {
+        background: grey;
+        position: absolute;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    p {
+        font-size: 30px;
+        border: 2px solid black;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        margin-bottom: 2px;
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="myCanvas"width="600" height="600"></canvas>
+<p id="key" hidden></p>
+<p id="time" style="width:600px" >Time: 0</p>
+<p id="score"style="width: 600px">Score: 0 / 10</p>
+<p id="timeforaction" hidden></p>
+<script>
+    /** @author Alex Dudin */
+
+
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+    var x = 100;
+    var y = 100;
+    var bodyWidth = 40;
+    var bodyHeight = 40;
+    var dx = 2;
+    var dy = 2;
+
+    var rightPressed = false;
+    var leftPressed = false;
+    var upPressed = false;
+    var downPressed = false;
+    var StrgPressed = false;
+    var spacePressed = false;
+
+    var ballX = 400;
+    var ballY = 400;
+    var ballWidth = 40;
+    var ballHeight = 40;
+
+    var goldX = 200;
+    var goldY = 200;
+    var goldWidth = 40;
+    var goldHeight = 40;
+
+    var time = 0;
+    var score = 0;
+    var winScore = 6;
+    var counter = 0;
+
+    var timeForAction = 0;
+    var audio = new Audio('audio/bitconect.mp3');
+    var audio2 = new Audio('audio/wasup.mp3');
+    var audio3 = new Audio ("audio/nonono.mp3");
+    var audio4 = new Audio ("audio/win_sound.mp3");
+
+    var win_image = new Image();
+    win_image.src = "pictures/win.jpg";
+
+    function checkWall() {
+        if ( x < 0){
+            x = 0;
+        }
+        if (x > canvas.width-bodyWidth){
+            x = canvas.width-bodyWidth;
+        }
+        if (y < 0){
+            y = 0;
+        }
+        if (y > canvas.height-bodyHeight){
+            y = canvas.height-bodyHeight;
+        }
+    }
+    
+    function drawSnake() {
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        //ctx.fillRect(x,y,bodyWidth,bodyHeight);
+        player_image = new Image();
+        player_image.src = "pictures/bitconectguy.png";
+        ctx.drawImage(player_image,x,y,bodyWidth,ballHeight);
+        ctx.closePath();
+    }
+    
+    function drawBall(c) {
+        let color = c;
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        //ctx.fillRect(ballX, ballY, ballWidth, ballHeight);
+        enemy_image = new Image();
+        enemy_image.src = "pictures/loss_large.png";
+        ctx.drawImage(enemy_image,ballX,ballY,ballWidth,ballHeight);
+        chaseSnake(1);
+        ctx.closePath();
+    }
+
+    function drawGold() {
+
+        ctx.beginPath();
+        ctx.fillStyle = "gold";
+        //ctx.fillRect(goldX, goldY, goldWidth, goldHeight);
+        base_image = new Image();
+        base_image.src = "pictures/bitcoin.png";
+        ctx.drawImage(base_image,goldX,goldY,goldWidth,goldHeight);
+        //Collision
+        if (x >= goldX && //Ecke links oben
+            x <= goldX + goldWidth &&
+            y >= goldY &&
+            y <= goldY + goldHeight
+        ||  x + bodyWidth >= goldX && // Ecke rechts oben
+            x + bodyWidth <= goldX + goldWidth &&
+            y >= goldY &&
+            y <= goldY + goldHeight
+        ||  x >= goldX && // Ecke links unten
+            x <= goldX + goldWidth &&
+            y + bodyHeight >= goldY &&
+            y + bodyHeight <= goldY + goldHeight
+        ||  x + bodyWidth>= goldX && // Ecke rechts unten
+            x + bodyWidth<= goldX + goldWidth &&
+            y + bodyHeight>= goldY &&
+            y + bodyHeight<= goldY + goldHeight){
+            goldX = Math.random()*canvas.width - goldWidth;
+            goldY = Math.random()*canvas.width - goldHeight;
+
+            audio.play();
+            //audio2.pause();
+            if (goldX < 0){
+                goldX = 0;
+            }
+            if (goldY < 0){
+                goldY = 0;
+            }
+            score++;
+            document.getElementById("score").innerHTML = "Score: " + score + " / 10";
+        }
+
+        ctx.closePath();
+    }
+    
+    function chaseSnake(t) {
+        let timer = t;
+
+        if (ballX > x){
+            ballX -= timer;
+        }
+        if (ballX < x){
+            ballX += timer;
+        }
+        if (ballY > y){
+            ballY -= timer;
+        }
+        if (ballY < y){
+            ballY += timer;
+        }
+
+        if (score == winScore){
+            ballY = 600;
+            ballX = 600;
+        }
+    }
+    
+
+
+    function checkTarget(){
+        if (x >= ballX && //Ecke links oben
+            x <= ballX + ballWidth &&
+            y >= ballY &&
+            y <= ballY + ballHeight
+            ||  x + bodyWidth >= ballX && // Ecke rechts oben
+            x + bodyWidth <= ballX + ballWidth &&
+            y >= ballY &&
+            y <= ballY + ballHeight
+            ||  x >= ballX && // Ecke links unten
+            x <= ballX + ballWidth &&
+            y + bodyHeight >= ballY &&
+            y + bodyHeight <= ballY + ballHeight
+            ||  x + bodyWidth>= ballX && //Ecke rechts unten
+            x + bodyWidth<= ballX + ballWidth &&
+            y + bodyHeight>= ballY &&
+            y + bodyHeight<= ballY + ballHeight){
+
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+            audio.pause();
+            audio2.pause();
+            audio3.play();
+            chaseSnake(2);
+            setTimeout(gameOver, 1500);
+
+        }
+       /* if ( x == ballX && y == ballY ){
+            document.location.reload();
+            //alert("GAME OVER");
+
+        } */
+    }
+
+    function gameOver(){
+        document.location.reload()
+
+    }
+
+    document.addEventListener("keydown",keyDownHandler,false);
+    document.addEventListener("keyup",keyUpHandler,false);
+
+    function checkKeys(){
+
+        if ( rightPressed == true){
+            x += dx;
+        }
+
+        if ( leftPressed == true){
+            x -= dx;
+        }
+        if ( downPressed == true){
+            y += dy;
+        }
+        if ( upPressed == true){
+            y -= dy;
+        }
+
+        if ( StrgPressed == true){
+
+            //document.getElementById("time").innerHTML = "timesd";
+        }
+        if ( spacePressed == true){
+            if (ballX > x){
+                ballX += 2;
+                if(ballX > canvas.width-ballWidth){ballX = canvas.width-ballWidth}
+            }
+            if (ballX < x){
+                ballX -= 2;
+                if(ballX < 0){ ballX = 0;}
+            }
+            if (ballY > y){
+                ballY += 2;
+                if(ballY > canvas.width-ballHeight){ ballY = canvas.width-ballHeight;}
+            }
+            if (ballY < y){
+                ballY -= 2;
+                if(ballY < 0){ ballY = 0;}
+            }
+
+            setTimeout(1000);
+        }
+    }
+
+    function keyDownHandler(e){
+        if ( e.keyCode == 39){
+            rightPressed = true;
+        }
+        else if (e.keyCode == 37){
+            leftPressed = true;
+        }
+        else if ( e.keyCode == 40){
+            downPressed = true;
+        }
+        else if ( e.keyCode == 38){
+            upPressed = true;
+        }
+        else if ( e.keyCode == 32){
+            spacePressed = true;
+        }
+        else if (e.keyCode == 17){
+            StrgPressed = true;
+        }
+        else if (e.keyCode != ""){
+            document.getElementById("key").innerText = e.keyCode;
+        }
+
+    }
+    function keyUpHandler(e){
+        if ( e.keyCode == 39){
+            rightPressed = false;
+        }
+        else if (e.keyCode == 37){
+            leftPressed = false;
+        }
+        else if ( e.keyCode == 40){
+            downPressed = false;
+        }
+        else if ( e.keyCode == 38){
+            upPressed = false;
+        }
+        else if ( e.keyCode == 32){
+            spacePressed = false;
+        }
+        else if (e.keyCode != ""){
+            document.getElementById("key").innerHTML = e.keyCode;
+        }
+
+    }
+    
+    function checkWin() {
+        if (score == winScore){
+            ctx.beginPath();
+            ctx.drawImage(win_image, 0, 0, canvas.width, canvas.height);
+            ctx.closePath();
+
+            audio2.pause();
+            audio3.pause();
+            audio4.play();
+            setTimeout(reload, 15000);
+        }
+    }
+
+    function reload(){
+        document.location.reload()
+    }
+
+    function drawChaser() {
+        timeForAction = time%4;
+        if ( timeForAction == 3 ){
+            chaseSnake(Math.random()*(time/10)+1);
+            ctx.beginPath();
+            ctx.fillStyle = "red";
+            ctx.fillRect(ballX,ballY,ballWidth,ballWidth);
+            enemy_image = new Image();
+            enemy_image.src = "pictures/lose-money.png";
+            ctx.drawImage(enemy_image,ballX,ballY,ballWidth,ballHeight);
+            ctx.closePath();
+        }
+        else {drawBall("blue"); }
+    }
+
+    function draw() {
+        if (time == 0){
+            audio2.play();
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        checkTarget();
+
+        //Objects
+        drawSnake();
+        drawGold();
+        drawChaser();
+
+        //Check GameEnd
+        checkWin();
+
+        //Check Collision and Buttons
+        checkKeys();
+        checkWall();
+
+        counter++;
+        time = Math.round(counter/100);
+
+        document.getElementById("time").innerHTML = "Time: " + time;
+        //document.getElementById("timeforaction").innerHTML = "timeforaction: " + timeForAction;
+    }
+
+    setInterval(draw,10);
+
+
+
+</script>
+
+</body>
+
+</html>
