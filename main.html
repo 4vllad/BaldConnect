@@ -35,45 +35,45 @@
     /** @author Alex Dudin */
 
 
-    var canvas = document.getElementById("myCanvas");
-    var ctx = canvas.getContext("2d");
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
 
-    var x = 100;
-    var y = 100;
-    var bodyWidth = 40;
-    var bodyHeight = 40;
-    var dx = 2;
-    var dy = 2;
+    let x = 100;
+    let y = 100;
+    let bodyWidth = 40;
+    let bodyHeight = 40;
+    let dx = 2;
+    let dy = 2;
 
-    var rightPressed = false;
-    var leftPressed = false;
-    var upPressed = false;
-    var downPressed = false;
-    var StrgPressed = false;
-    var spacePressed = false;
+    let rightPressed = false;
+    let leftPressed = false;
+    let upPressed = false;
+    let downPressed = false;
+    let StrgPressed = false;
+    let spacePressed = false;
 
-    var ballX = 400;
-    var ballY = 400;
-    var ballWidth = 40;
-    var ballHeight = 40;
+    let ballX = 400;
+    let ballY = 400;
+    let ballWidth = 40;
+    let ballHeight = 40;
 
-    var goldX = 200;
-    var goldY = 200;
-    var goldWidth = 40;
-    var goldHeight = 40;
+    let goldX = 200;
+    let goldY = 200;
+    let goldWidth = 40;
+    let goldHeight = 40;
 
-    var time = 0;
-    var score = 0;
-    var winScore = 6;
-    var counter = 0;
+    let time = 0;
+    let score = 0;
+    let winScore = 6;
+    let counter = 0;
 
-    var timeForAction = 0;
-    var audio = new Audio('audio/bitconect.mp3');
-    var audio2 = new Audio('audio/wasup.mp3');
-    var audio3 = new Audio ("audio/nonono.mp3");
-    var audio4 = new Audio ("audio/win_sound.mp3");
+    let timeForAction = 0;
+    let audio = new Audio('audio/bitconect.mp3');
+    let audio2 = new Audio('audio/wasup.mp3');
+    let audio3 = new Audio ("audio/nonono.mp3");
+    let audio4 = new Audio ("audio/win_sound.mp3");
 
-    var win_image = new Image();
+    let win_image = new Image();
     win_image.src = "pictures/win.jpg";
 
     function checkWall() {
@@ -265,46 +265,46 @@
     }
 
     function keyDownHandler(e){
-        if ( e.keyCode == 39){
+        if ( e.keyCode === 39){
             rightPressed = true;
         }
-        else if (e.keyCode == 37){
+        else if (e.keyCode === 37){
             leftPressed = true;
         }
-        else if ( e.keyCode == 40){
+        else if ( e.keyCode === 40){
             downPressed = true;
         }
-        else if ( e.keyCode == 38){
+        else if ( e.keyCode === 38){
             upPressed = true;
         }
-        else if ( e.keyCode == 32){
+        else if ( e.keyCode === 32){
             spacePressed = true;
         }
-        else if (e.keyCode == 17){
+        else if (e.keyCode === 17){
             StrgPressed = true;
         }
-        else if (e.keyCode != ""){
+        else if (e.keyCode !== ""){
             document.getElementById("key").innerText = e.keyCode;
         }
 
     }
     function keyUpHandler(e){
-        if ( e.keyCode == 39){
+        if ( e.keyCode === 39){
             rightPressed = false;
         }
-        else if (e.keyCode == 37){
+        else if (e.keyCode === 37){
             leftPressed = false;
         }
-        else if ( e.keyCode == 40){
+        else if ( e.keyCode === 40){
             downPressed = false;
         }
-        else if ( e.keyCode == 38){
+        else if ( e.keyCode === 38){
             upPressed = false;
         }
-        else if ( e.keyCode == 32){
+        else if ( e.keyCode === 32){
             spacePressed = false;
         }
-        else if (e.keyCode != ""){
+        else if (e.keyCode !== ""){
             document.getElementById("key").innerHTML = e.keyCode;
         }
 
