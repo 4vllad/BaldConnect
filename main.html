@@ -76,6 +76,10 @@
     let win_image = new Image();
     win_image.src = "pictures/win.jpg";
 
+    function checkScore() {
+        document.getElementById("score").innerText = "Score: " + score + " / " + winScore;
+    }
+
     function checkWall() {
         if ( x < 0){
             x = 0;
@@ -150,7 +154,7 @@
                 goldY = 0;
             }
             score++;
-            document.getElementById("score").innerHTML = "Score: " + score + " / 10";
+            document.getElementById("score").innerHTML = "Score: " + score + " / " + winScore;
         }
 
         ctx.closePath();
@@ -342,7 +346,12 @@
         else {drawBall("blue"); }
     }
 
+
+
     function draw() {
+        checkScore();
+
+
         if (time == 0){
             audio2.play();
         }
