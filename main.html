@@ -21,6 +21,12 @@
         margin: auto;
         margin-bottom: 2px;
     }
+    body{
+        background: white;
+    }
+    button{
+
+    }
 </style>
 </head>
 
@@ -31,6 +37,21 @@
 <p id="time" style="width:600px" >Time: 0</p>
 <p id="score"style="width: 600px">Score: 0 / 10</p>
 <p id="timeforaction" hidden></p>
+
+<button type="button" onclick="myFunction()" hidden>Set background color</button>
+
+<script>
+    function myFunction() {
+        if (document.body.style.backgroundColor = "white") {
+            document.body.style.backgroundColor = "slategrey";
+        }
+        else if (document.body.style.backgroundColor = "slategrey"){
+            document.body.style.backgroundColor = "white";
+        }
+
+    }
+</script>
+
 <script>
     /** @author Alex Dudin */
 
