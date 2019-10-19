@@ -34,39 +34,40 @@
 <script>
     /** @author Alex Dudin */
 
-
+    //Create Canvas
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
-
+    //Player Parameters
     let x = 100;
     let y = 100;
     let bodyWidth = 40;
     let bodyHeight = 40;
-    let dx = 2;
-    let dy = 2;
+    let dx = 2; //Horizontal Speed
+    let dy = 2; //Vertical Speed
 
+    //Key Press Status
     let rightPressed = false;
     let leftPressed = false;
     let upPressed = false;
     let downPressed = false;
     let StrgPressed = false;
     let spacePressed = false;
-
+    //Ball Parameters
     let ballX = 400;
     let ballY = 400;
     let ballWidth = 40;
     let ballHeight = 40;
-
+    //Gold Parameters
     let goldX = 200;
     let goldY = 200;
     let goldWidth = 40;
     let goldHeight = 40;
-
+    //Game Statistic
     let time = 0;
     let score = 0;
     let winScore = 6;
     let counter = 0;
-
+    //Audio and Image Parameters
     let timeForAction = 0;
     let audio = new Audio('audio/bitconect.mp3');
     let audio2 = new Audio('audio/wasup.mp3');
@@ -75,7 +76,7 @@
 
     let win_image = new Image();
     win_image.src = "pictures/win.jpg";
-
+    //Changes Scoretext if score changes
     function checkScore() {
         document.getElementById("score").innerText = "Score: " + score + " / " + winScore;
     }
