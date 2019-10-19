@@ -96,7 +96,7 @@
         }
     }
     
-    function drawSnake() {
+    function drawPlayer() {
         ctx.beginPath();
         ctx.fillStyle = "black";
         //ctx.fillRect(x,y,bodyWidth,bodyHeight);
@@ -218,15 +218,16 @@
 
         } */
     }
-
+    //Restarts the Page to start the game from the beginning
     function gameOver(){
         document.location.reload()
 
     }
-
+    //Add keydown Handler
     document.addEventListener("keydown",keyDownHandler,false);
+    //Add keyup Handler
     document.addEventListener("keyup",keyUpHandler,false);
-
+    //Checks if the boolean of the parameters is true to move the Player
     function checkKeys(){
 
         if ( rightPressed == true){
@@ -242,11 +243,12 @@
         if ( upPressed == true){
             y -= dy;
         }
-
+        //TODO?
         if ( StrgPressed == true){
 
             //document.getElementById("time").innerHTML = "timesd";
         }
+        //Space is used to push the Chaser away
         if ( spacePressed == true){
             if (ballX > x){
                 ballX += 2;
@@ -268,7 +270,7 @@
             setTimeout(1000);
         }
     }
-
+    //Changes the boolean of the parameters to TRUE if the key IS pressed
     function keyDownHandler(e){
         if ( e.keyCode === 39){
             rightPressed = true;
@@ -293,6 +295,7 @@
         }
 
     }
+    //Changes the boolean of the parameters to FALSE if the key IS NOT pressed
     function keyUpHandler(e){
         if ( e.keyCode === 39){
             rightPressed = false;
@@ -314,7 +317,7 @@
         }
 
     }
-    
+    //Checks if the Player won
     function checkWin() {
         if (score == winScore){
             ctx.beginPath();
@@ -327,11 +330,11 @@
             setTimeout(reload, 15000);
         }
     }
-
+    //Restarts the Page to start the game from the beginning
     function reload(){
         document.location.reload()
     }
-
+    //Draws the Chaser which follow the Player
     function drawChaser() {
         timeForAction = time%4;
         if ( timeForAction == 3 ){
@@ -346,21 +349,33 @@
         }
         else {drawBall("blue"); }
     }
-
-
-
-    function draw() {
-        checkScore();
-
-
+    //Audio that starts playing in the beginning of the game
+    function startingAudio() {
         if (time == 0){
             audio2.play();
         }
+    }
+    //Clears whole canvas
+    function clearCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        checkTarget();
+    }
+    //Updates Time
+    function UpdateTime() {
+        counter++;
+        time = Math.round(counter/100);
+
+        document.getElementById("time").innerHTML = "Time: " + time;
+    }
+
+    function draw() {
+        checkScore();       //Changes Score to the current one
+        startingAudio();    //Audio when the game Starts
+        clearCanvas();      //Clear the whole Canvas
+
+        checkTarget();      //Check if Chaser hit the Player
 
         //Objects
-        drawSnake();
+        drawPlayer();
         drawGold();
         drawChaser();
 
@@ -371,13 +386,12 @@
         checkKeys();
         checkWall();
 
-        counter++;
-        time = Math.round(counter/100);
-
-        document.getElementById("time").innerHTML = "Time: " + time;
+        //Update time for the game machanics
+        UpdateTime();
         //document.getElementById("timeforaction").innerHTML = "timeforaction: " + timeForAction;
     }
 
+    //START PROGRAMM
     setInterval(draw,10);
 
 
