@@ -153,7 +153,12 @@
         ctx.fillStyle = color;
         //ctx.fillRect(ballX, ballY, ballWidth, ballHeight);
         enemy_image = new Image();
-        enemy_image.src = "pictures/loss_large.png";
+        if (requiem == false){
+            enemy_image.src = "pictures/loss_large.png";
+        }
+        else if (requiem == true){
+            enemy_image.src = "pictures/dopio.png";
+        }
         ctx.drawImage(enemy_image,ballX,ballY,ballWidth,ballHeight);
         chaseSnake(1);
         ctx.closePath();
@@ -162,7 +167,7 @@
     function drawGold() {
 
         ctx.beginPath();
-        ctx.fillStyle = "gold";
+        //ctx.fillStyle = "gold";
         //ctx.fillRect(goldX, goldY, goldWidth, goldHeight);
         base_image = new Image();
         base_image.src = "pictures/bitcoin.png";
@@ -423,10 +428,19 @@
         if ( timeForAction == 3 ){
             chaseSnake(Math.random()*(time/10)+1);
             ctx.beginPath();
-            ctx.fillStyle = "red";
-            ctx.fillRect(ballX,ballY,ballWidth,ballWidth);
+
             enemy_image = new Image();
-            enemy_image.src = "pictures/lose-money.png";
+            if (requiem == false) {
+                enemy_image.src = "pictures/lose-money.png";
+                ctx.fillStyle = "red";
+                ctx.fillRect(ballX,ballY,ballWidth,ballWidth);
+            }
+            else if (requiem == true){
+                enemy_image.src = "pictures/diavolo.png";
+                ctx.fillStyle = "grey";
+                ctx.fillRect(ballX,ballY,ballWidth+20,ballWidth+20);
+            }
+
             ctx.drawImage(enemy_image,ballX,ballY,ballWidth,ballHeight);
             ctx.closePath();
 

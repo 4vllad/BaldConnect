@@ -11,7 +11,7 @@ function drawSpark(n,xx,yy,width, height) {
     let sparks = new Array(n);
 
     ctx.beginPath();
-    ctx.fillStyle = "yellow";
+    //ctx.fillStyle = "yellow";
     //ctx.fillRect(spark.x, spark.y,spark.width,spark.height);
     ctx.drawImage(spark_image,spark.x, spark.y,spark.width,spark.height);
     //enemy_image = new Image();
