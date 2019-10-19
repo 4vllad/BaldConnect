@@ -69,13 +69,16 @@
     let counter = 0;
     //Audio and Image Parameters
     let timeForAction = 0;
-    let audio = new Audio('audio/bitconect.mp3');
+    let audioMoney1 = new Audio('audio/bitconect.mp3');
+    let audioMoney2 = new Audio('audio/coins1.wav');
+    let audioMoney3 = new Audio('audio/cha-ching.wav');
+    let audioMoney4 = new Audio('audio/coins2.wav');
     let audio2 = new Audio('audio/wasup.mp3');
     let audio3 = new Audio ("audio/nonono.mp3");
     let audio4 = new Audio ("audio/win_sound.mp3");
 
     let win_image = new Image();
-    win_image.src = "pictures/win.jpg";
+    win_image.src = "pictures/win2.jpg";
     //Changes Scoretext if score changes
     function checkScore() {
         document.getElementById("score").innerText = "Score: " + score + " / " + winScore;
@@ -148,9 +151,22 @@
 
             goldX = Math.random()*canvas.width - goldWidth;
             goldY = Math.random()*canvas.width - goldHeight;
+            let m = Math.random()
+            if ( m < 0.25 ){
 
-            audio.play();
-            //audio2.pause();
+                audioMoney1.play();
+            }
+            else if (m > 0.25 && m < 0.5) {
+                audioMoney3.play();
+            }
+            else if (m > 0.5 && m < 0.75) {
+                audioMoney4.play();
+            }
+            else {
+                audioMoney2.play();
+            }
+
+            audio2.pause();
             if (goldX < 0){
                 goldX = 0;
             }
@@ -209,7 +225,10 @@
 
             ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-            audio.pause();
+            audioMoney1.pause();
+            audioMoney2.pause();
+            audioMoney3.pause();
+            audioMoney4.pause();
             audio2.pause();
             audio3.play();
             chaseSnake(2);
@@ -391,7 +410,7 @@
 
         checkTarget();      //Check if Chaser hit the Player
         //Effects
-        drawSpark(1,(goldX + goldWidth/2)  + sparkLifeTime * ((Math.random() * 2.1) -1 ) ,(goldY + goldHeight/2) + sparkLifeTime * ((Math.random() * 2.1) -1 ), goldWidth/8, goldHeight/8 );
+        drawSpark(1,(goldX + goldWidth/16)  + sparkLifeTime * ((Math.random() * 2.1) -1 ) ,(goldY + goldHeight/16) + sparkLifeTime * ((Math.random() * 2.1) -1 ), goldWidth/1, goldHeight/1 );
 
         //Objects
         sparksFly();

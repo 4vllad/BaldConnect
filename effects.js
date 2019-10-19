@@ -1,6 +1,9 @@
 
 function drawSpark(n,xx,yy,width, height) {
     let spark = new Object();
+    let spark_image = new Image();
+    spark_image.src = "pictures/spark.png";
+
     spark.x = xx;
     spark.y = yy;
     spark.width = width;
@@ -9,7 +12,8 @@ function drawSpark(n,xx,yy,width, height) {
 
     ctx.beginPath();
     ctx.fillStyle = "yellow";
-    ctx.fillRect(spark.x, spark.y,spark.width,spark.height);
+    //ctx.fillRect(spark.x, spark.y,spark.width,spark.height);
+    ctx.drawImage(spark_image,spark.x, spark.y,spark.width,spark.height);
     //enemy_image = new Image();
     //enemy_image.src = "pictures/lose-money.png";
     //ctx.drawImage(enemy_image,ballX,ballY,ballWidth,ballHeight);
