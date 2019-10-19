@@ -143,6 +143,9 @@
             x + bodyWidth<= goldX + goldWidth &&
             y + bodyHeight>= goldY &&
             y + bodyHeight<= goldY + goldHeight){
+
+            sparkHit = true;
+
             goldX = Math.random()*canvas.width - goldWidth;
             goldY = Math.random()*canvas.width - goldHeight;
 
@@ -156,6 +159,7 @@
             }
             score++;
             document.getElementById("score").innerHTML = "Score: " + score + " / " + winScore;
+
         }
 
         ctx.closePath();
@@ -346,6 +350,8 @@
             enemy_image.src = "pictures/lose-money.png";
             ctx.drawImage(enemy_image,ballX,ballY,ballWidth,ballHeight);
             ctx.closePath();
+
+
         }
         else {drawBall("blue"); }
     }
@@ -363,8 +369,19 @@
     function UpdateTime() {
         counter++;
         time = Math.round(counter/100);
+        sparkLifeTime++;
 
         document.getElementById("time").innerHTML = "Time: " + time;
+    }
+    let sparkLifeTime = 0;
+    let sparkHit = false;
+
+    function sparksFly() {
+        if (sparkHit == true){
+
+        }
+
+
     }
 
     function draw() {
@@ -373,10 +390,14 @@
         clearCanvas();      //Clear the whole Canvas
 
         checkTarget();      //Check if Chaser hit the Player
+        //Effects
+        drawSpark(1,(goldX + goldWidth/2)  + sparkLifeTime * ((Math.random() * 2.1) -1 ) ,(goldY + goldHeight/2) + sparkLifeTime * ((Math.random() * 2.1) -1 ), goldWidth/8, goldHeight/8 );
 
         //Objects
+        sparksFly();
         drawPlayer();
         drawGold();
+
         drawChaser();
 
         //Check GameEnd
@@ -389,7 +410,10 @@
         //Update time for the game machanics
         UpdateTime();
         //document.getElementById("timeforaction").innerHTML = "timeforaction: " + timeForAction;
+
     }
+
+
 
     //START PROGRAMM
     setInterval(draw,10);
@@ -397,7 +421,7 @@
 
 
 </script>
-
+<script src="effects.js"></script>
 </body>
 
 </html>

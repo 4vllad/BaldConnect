@@ -1,1 +1,2 @@
-# BitCo
+# BaldConnect
+# Build for Fun
