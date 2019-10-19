@@ -73,6 +73,7 @@
     let downPressed = false;
     let StrgPressed = false;
     let spacePressed = false;
+    let GPressed = false;
     //Ball Parameters
     let ballX = 400;
     let ballY = 400;
@@ -97,12 +98,25 @@
     let audio2 = new Audio('audio/wasup.mp3');
     let audio3 = new Audio ("audio/nonono.mp3");
     let audio4 = new Audio ("audio/win_sound.mp3");
+    let audioGiorno = new Audio ("audio/giorno.mp3");
+    let audioGiornoKorega = new Audio ("audio/korega.mp3");
 
+    let player_image = new Image();
+    let requiem = false;
     let win_image = new Image();
     win_image.src = "pictures/win2.jpg";
+    let win_image2 = new Image();
+    win_image2.src = "pictures/gb.jpg";
     //Changes Scoretext if score changes
     function checkScore() {
-        document.getElementById("score").innerText = "Score: " + score + " / " + winScore;
+
+        if (requiem == false){
+            document.getElementById("score").innerText = "Score: " + score + " / " + winScore;
+        }
+        else if (requiem == true){
+            document.getElementById("score").innerText = "Arrows: " + score + " / " + winScore;
+        }
+
     }
 
     function checkWall() {
@@ -124,8 +138,11 @@
         ctx.beginPath();
         ctx.fillStyle = "black";
         //ctx.fillRect(x,y,bodyWidth,bodyHeight);
-        player_image = new Image();
-        player_image.src = "pictures/bitconectguy.png";
+        if (requiem == false){
+            player_image.src = "pictures/bitconectguy.png";
+        }
+        else {player_image.src = "pictures/giorno.png";}
+
         ctx.drawImage(player_image,x,y,bodyWidth,ballHeight);
         ctx.closePath();
     }
@@ -149,7 +166,15 @@
         //ctx.fillRect(goldX, goldY, goldWidth, goldHeight);
         base_image = new Image();
         base_image.src = "pictures/bitcoin.png";
-        ctx.drawImage(base_image,goldX,goldY,goldWidth,goldHeight);
+        base_image2 = new Image();
+        base_image2.src = "pictures/arrow.png";
+        if (requiem == false) {
+            ctx.drawImage(base_image,goldX,goldY,goldWidth,goldHeight);
+        }
+        else if (requiem == true){
+            ctx.drawImage(base_image2,goldX,goldY,goldWidth,goldHeight);
+        }
+
         //Collision
         if (x >= goldX && //Ecke links oben
             x <= goldX + goldWidth &&
@@ -195,7 +220,7 @@
                 goldY = 0;
             }
             score++;
-            document.getElementById("score").innerHTML = "Score: " + score + " / " + winScore;
+
 
         }
 
@@ -293,7 +318,11 @@
             //document.getElementById("time").innerHTML = "timesd";
         }
         //Space is used to push the Chaser away
-        if ( spacePressed == true){
+        if ( GPressed == true){
+            audioGiorno.play();
+            requiem = true;
+            winScore = 20;
+
             if (ballX > x){
                 ballX += 2;
                 if(ballX > canvas.width-ballWidth){ballX = canvas.width-ballWidth}
@@ -328,8 +357,8 @@
         else if ( e.keyCode === 38){
             upPressed = true;
         }
-        else if ( e.keyCode === 32){
-            spacePressed = true;
+        else if ( e.keyCode === 71){
+            GPressed = true;
         }
         else if (e.keyCode === 17){
             StrgPressed = true;
@@ -353,8 +382,8 @@
         else if ( e.keyCode === 38){
             upPressed = false;
         }
-        else if ( e.keyCode === 32){
-            spacePressed = false;
+        else if ( e.keyCode === 71){
+            GPressed = false;
         }
         else if (e.keyCode !== ""){
             document.getElementById("key").innerHTML = e.keyCode;
@@ -363,7 +392,7 @@
     }
     //Checks if the Player won
     function checkWin() {
-        if (score == winScore){
+        if (score == winScore && requiem == false){
             ctx.beginPath();
             ctx.drawImage(win_image, 0, 0, canvas.width, canvas.height);
             ctx.closePath();
@@ -371,6 +400,16 @@
             audio2.pause();
             audio3.pause();
             audio4.play();
+            setTimeout(reload, 15000);
+        }
+        else if (score == winScore && requiem == true){
+            ctx.beginPath();
+            ctx.drawImage(win_image2, 0, canvas.height/2 - canvas.height/4, canvas.width, canvas.height/2);
+            ctx.closePath();
+
+            audio2.pause();
+            audio3.pause();
+            audioGiornoKorega.play();
             setTimeout(reload, 15000);
         }
     }
